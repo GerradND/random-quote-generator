@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useEffect } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
 import DropdownComponent from "../components/Dropdown/DropdownComponent";
@@ -7,6 +7,18 @@ import GenerateQuoteButton from "../components/Button/GenerateQuoteButton";
 export default function Home() {
 	const [value, setValue] = useState('');
 	const [num, setNum] = useState(1)
+
+	const [data, setData] = useState('');
+	const getData = async () => {
+		const response = await fetch(`/api/quote?name=${value}&number=2`);
+		const resData = await response.json();
+		console.log(resData);
+		setData(resData.sentences);
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
 
 	return (
 		<>
@@ -20,6 +32,7 @@ export default function Home() {
 				{/* code starts here */}
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
 				<p className="text-lg">Number of People: </p>
+
 				{/* dropdown */}
 				<DropdownComponent num={num} setNum={setNum}></DropdownComponent>
 				<form className="p-4">
@@ -31,8 +44,12 @@ export default function Home() {
 						}
 					></textarea>
 				</form>
+
 				{/* button */}
 				<GenerateQuoteButton num={num} value={value}></GenerateQuoteButton>
+
+				{/* quotes */}
+				<div dangerouslySetInnerHTML={{ __html: data }} />
 			</main>
 		</>
 	);
