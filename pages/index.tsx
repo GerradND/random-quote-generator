@@ -1,6 +1,7 @@
 import React, { ChangeEvent, ChangeEventHandler } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
+import DropdownComponent from "../components/Dropdown/DropdownComponent";
 
 export default function Home() {
 	const [value, setValue] = useState('');
@@ -17,6 +18,7 @@ export default function Home() {
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
 				<p className="text-lg">Number of People: </p>
 				{/* dropdown */}
+				<DropdownComponent></DropdownComponent>
 				<form className="p-4">
 					<textarea
 						className="border-2 border-black resize"
