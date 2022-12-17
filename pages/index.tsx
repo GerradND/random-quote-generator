@@ -2,7 +2,6 @@ import React, { ChangeEvent, ChangeEventHandler, useEffect } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
 import DropdownComponent from "../components/Dropdown/DropdownComponent";
-import GenerateQuoteButton from "../components/Button/GenerateQuoteButton";
 
 export default function Home() {
 	const [value, setValue] = useState('');
@@ -10,7 +9,7 @@ export default function Home() {
 
 	const [data, setData] = useState('');
 	const getData = async () => {
-		const response = await fetch(`/api/quote?name=${value}&number=2`);
+		const response = await fetch(`/api/quote?name=${value}&number=${num}`);
 		const resData = await response.json();
 		console.log(resData);
 		setData(resData.sentences);
@@ -46,7 +45,15 @@ export default function Home() {
 				</form>
 
 				{/* button */}
-				<GenerateQuoteButton num={num} value={value}></GenerateQuoteButton>
+				<button
+					onClick={() => {
+						console.log('value:', value);
+						getData();
+					}}
+					className="bg-gray-300 border-2 border-black resize-none"
+				>
+					Submit
+				</button>
 
 				{/* quotes */}
 				<div dangerouslySetInnerHTML={{ __html: data }} />
