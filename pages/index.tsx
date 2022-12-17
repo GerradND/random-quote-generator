@@ -10,16 +10,24 @@ export default function Home() {
 	const [data, setData] = useState('');
 	const getData = async () => {
 		const response = await fetch(
-			`http://localhost:8080/api/v1/generate-quote?number_of_people=2&names=${value.replaceAll(
-				'\n',
-				','
-			)}`,
+			`/api/quote?number=${num}&name=${value.replaceAll('\n', ',')}`,
 			{
 				method: 'GET',
 				mode: 'cors',
 				headers: { 'Content-Type': 'application/json' },
 			}
 		);
+		// const response = await fetch(
+		// 	`http://localhost:8080/api/v1/generate-quote?number_of_people=2&names=${value.replaceAll(
+		// 		'\n',
+		// 		','
+		// 	)}`,
+		// 	{
+		// 		method: 'GET',
+		// 		mode: 'cors',
+		// 		headers: { 'Content-Type': 'application/json' },
+		// 	}
+		// );
 		const resData = await response.json();
 		console.log(resData);
 		setData(resData.sentences);
@@ -40,13 +48,17 @@ export default function Home() {
 			<main className="flex flex-col justify-center items-center">
 				{/* code starts here */}
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
-				<p className="text-lg">Number of People: </p>
 
-				{/* dropdown */}
-				<DropdownComponent num={num} setNum={setNum}></DropdownComponent>
+				<div className="flex justify-center items-center">
+					<p className="text-lg pr-3">Number of People: </p>
+
+					{/* dropdown */}
+					<DropdownComponent num={num} setNum={setNum}></DropdownComponent>
+				</div>
+
 				<form className="p-4">
 					<textarea
-						className="border-2 border-black resize"
+						className="border-2 border-black resize rounded"
 						rows={4}
 						onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
 							setValue(event.target.value)
@@ -60,13 +72,13 @@ export default function Home() {
 						console.log('value:', value);
 						getData();
 					}}
-					className="bg-gray-300 border-2 border-black resize-none"
+					className="bg-gray-300 border-2 border-black rounded px-3 py-1"
 				>
 					Submit
 				</button>
 
 				{/* quotes */}
-				<div dangerouslySetInnerHTML={{ __html: data }} />
+				<div className="pt-4" dangerouslySetInnerHTML={{ __html: data }} />
 			</main>
 		</>
 	);
