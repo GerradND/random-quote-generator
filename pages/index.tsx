@@ -9,6 +9,7 @@ import Button from '../components/Button';
 export default function Home() {
 	const [value, setValue] = useState('');
 	const [num, setNum] = useState(1);
+	var parse = require('html-react-parser');
 
 	const [data, setData] = useState('');
 	const getData = async () => {
@@ -74,7 +75,7 @@ export default function Home() {
 				</form>
 
 				{/* button */}
-				<div>
+				<div className="flex flex-col sm:block">
 					<Button text="Generate Quote" value={value} getData={getData} />
 					<Button text="Shuffle Names" value={value} getData={getData} />
 				</div>
@@ -82,7 +83,7 @@ export default function Home() {
 				<ToastContainer autoClose={2000} />
 
 				{/* quotes */}
-				<div className="pt-4" dangerouslySetInnerHTML={{ __html: data }} />
+				<div className="py-4 px-4 text-left sm:w-[600px] ">{parse(data)}</div>
 			</main>
 		</>
 	);
