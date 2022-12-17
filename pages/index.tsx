@@ -2,6 +2,9 @@ import React, { ChangeEvent, useEffect } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
 import DropdownComponent from '../components/Dropdown/DropdownComponent';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Button from '../components/Button';
 
 export default function Home() {
 	const [value, setValue] = useState('');
@@ -67,15 +70,12 @@ export default function Home() {
 				</form>
 
 				{/* button */}
-				<button
-					onClick={() => {
-						console.log('value:', value);
-						getData();
-					}}
-					className="bg-gray-300 border-2 border-black rounded px-3 py-1"
-				>
-					Submit
-				</button>
+				<div>
+					<Button text="Generate Quote" value={value} getData={getData} />
+					<Button text="Shuffle Names" value={value} getData={getData} />
+				</div>
+
+				<ToastContainer autoClose={2000} />
 
 				{/* quotes */}
 				<div className="pt-4" dangerouslySetInnerHTML={{ __html: data }} />
