@@ -1,15 +1,25 @@
-import React, { ChangeEvent, ChangeEventHandler, useEffect } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
-import DropdownComponent from "../components/Dropdown/DropdownComponent";
+import DropdownComponent from '../components/Dropdown/DropdownComponent';
 
 export default function Home() {
 	const [value, setValue] = useState('');
-	const [num, setNum] = useState(1)
+	const [num, setNum] = useState(1);
 
 	const [data, setData] = useState('');
 	const getData = async () => {
-		const response = await fetch(`/api/quote?name=${value}&number=${num}`);
+		const response = await fetch(
+			`http://localhost:8080/api/v1/generate-quote?number_of_people=2&names=${value.replaceAll(
+				'\n',
+				','
+			)}`,
+			{
+				method: 'GET',
+				mode: 'cors',
+				headers: { 'Content-Type': 'application/json' },
+			}
+		);
 		const resData = await response.json();
 		console.log(resData);
 		setData(resData.sentences);
