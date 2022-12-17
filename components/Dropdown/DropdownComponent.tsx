@@ -1,12 +1,5 @@
-import { useState } from 'react';
-
-// function Header({ title }) {
-//     return <h1>{title ? title : 'Default title'}</h1>;
-// }
-
-export default function DropdownComponent() {
+export default function DropdownComponent({num, setNum}) {
     const choices = Array.from(Array(6).keys()).map(x => x + 1);
-    const [num, setNum] = useState(0);
 
     const handleChange = (event) => {
         setNum(event.target.value)
@@ -14,7 +7,8 @@ export default function DropdownComponent() {
 
     return (
         <div>
-            <select value={num} onChange={handleChange}>
+            <select className="inline-flex w-full justify-center rounded-md border-2 border-black bg-white px-2 py-2 my-2 text-gray-700 shadow-sm hover:bg-gray-50"
+                value={num} onChange={handleChange}>
                 {choices.map((value) => (
                     <option key={value}>{value}</option>
                 ))}

@@ -2,9 +2,12 @@ import React, { ChangeEvent, ChangeEventHandler } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
 import DropdownComponent from "../components/Dropdown/DropdownComponent";
+import GenerateQuoteButton from "../components/Button/GenerateQuoteButton";
 
 export default function Home() {
 	const [value, setValue] = useState('');
+	const [num, setNum] = useState(1)
+
 	return (
 		<>
 			<Head>
@@ -18,24 +21,18 @@ export default function Home() {
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
 				<p className="text-lg">Number of People: </p>
 				{/* dropdown */}
-				<DropdownComponent></DropdownComponent>
+				<DropdownComponent num={num} setNum={setNum}></DropdownComponent>
 				<form className="p-4">
 					<textarea
 						className="border-2 border-black resize"
+						rows={4}
 						onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
 							setValue(event.target.value)
 						}
 					></textarea>
 				</form>
 				{/* button */}
-				<button
-					onClick={() => {
-						console.log('value:', value);
-					}}
-					className="bg-gray-300 border-2 border-black resize-none"
-				>
-					Submit
-				</button>
+				<GenerateQuoteButton num={num} value={value}></GenerateQuoteButton>
 			</main>
 		</>
 	);
