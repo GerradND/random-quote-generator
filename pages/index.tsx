@@ -1,9 +1,21 @@
-import React, { ChangeEvent, ChangeEventHandler } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useEffect } from 'react';
 import Head from 'next/head';
 import { useState } from 'react';
 
 export default function Home() {
 	const [value, setValue] = useState('');
+	const [data, setData] = useState('');
+	const getData = async () => {
+		const response = await fetch(`/api/quote?name=${value}&number=2`);
+		const resData = await response.json();
+		console.log(resData);
+		setData(resData.sentences);
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -16,7 +28,9 @@ export default function Home() {
 				{/* code starts here */}
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
 				<p className="text-lg">Number of People: </p>
+
 				{/* dropdown */}
+
 				<form className="p-4">
 					<textarea
 						className="border-2 border-black resize"
@@ -25,15 +39,20 @@ export default function Home() {
 						}
 					></textarea>
 				</form>
+
 				{/* button */}
 				<button
 					onClick={() => {
 						console.log('value:', value);
+						getData();
 					}}
 					className="bg-gray-300 border-2 border-black resize-none"
 				>
 					Submit
 				</button>
+
+				{/* quotes */}
+				<div dangerouslySetInnerHTML={{ __html: data }} />
 			</main>
 		</>
 	);
