@@ -12,28 +12,31 @@ export default function Home() {
 
 	const [data, setData] = useState('');
 	const getData = async () => {
-		const response = await fetch(
-			`/api/quote?number=${num}&name=${value.replaceAll('\n', ',')}`,
-			{
-				method: 'GET',
-				mode: 'cors',
-				headers: { 'Content-Type': 'application/json' },
-			}
-		);
 		// const response = await fetch(
-		// 	`http://localhost:8080/api/v1/generate-quote?number_of_people=2&names=${value.replaceAll(
-		// 		'\n',
-		// 		','
-		// 	)}`,
+		// 	`/api/quote?number=${num}&name=${value.replaceAll('\n', ',')}`,
 		// 	{
 		// 		method: 'GET',
 		// 		mode: 'cors',
 		// 		headers: { 'Content-Type': 'application/json' },
 		// 	}
 		// );
+		const response = await fetch(
+			`http://localhost:8080/api/v1/generate-quote?number_of_people=${num}&names=${value.replaceAll(
+				'\n',
+				','
+			)}`,
+			{
+				method: 'GET',
+				mode: 'cors',
+				headers: { 'Content-Type': 'application/json' },
+			}
+		);
 		const resData = await response.json();
-		console.log(resData);
-		setData(resData.sentences);
+		if (!response.ok) {
+			toast.error('Error: ' + resData.error);
+		} else {
+			setData(resData.data.sentences);
+		}
 	};
 
 	useEffect(() => {
@@ -66,6 +69,7 @@ export default function Home() {
 						onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
 							setValue(event.target.value)
 						}
+						placeholder="Your favorite names..."
 					></textarea>
 				</form>
 
