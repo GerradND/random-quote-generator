@@ -60,11 +60,16 @@ export default function Home() {
 			</Head>
 			<main className="flex flex-col justify-center items-center">
 				{/* code starts here */}
-				<h1 className="py-10 text-center">Random Quote Generator!</h1>
+				<h1 className="pt-10 pb-4 text-center">Random Quote Generator!</h1>
 
-				{/* help modal*/}
+				{/* about modal*/}
 				<Modal isOpen={isOpen} setIsOpen={setIsOpen} />
-				<button onClick={openModal}>help</button>
+				<button 
+					onClick={openModal} 
+					className="font-medium underline rounded mb-8 px-3 py-1 mx-2 my-2 hover:bg-gray-100 duration-75"
+				>
+					About / Help
+				</button>
 
 				{/* input field */}
 				<div className="flex justify-center items-center">
@@ -96,7 +101,7 @@ export default function Home() {
 				{/* quotes */}
 				<div className="py-4 px-4 text-left sm:w-[600px] ">{parse(data)}</div>
 
-				<div className="py-4 px-4 text-center text-sm">Made for Kowan</div>
+				<div className="mt-8 text-center text-sm text-gray-500 italic">&#8226; Made for Kowan Final Project &#8226;</div>
 			</main>
 		</>
 	);
