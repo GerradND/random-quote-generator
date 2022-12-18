@@ -14,7 +14,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-RUN yarn build
+RUN NEXT_PUBLIC_API_URL=APP_NEXT_PUBLIC_API_URL yarn build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
@@ -27,6 +27,7 @@ RUN adduser --system --uid 1001 kowanuser
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
@@ -38,5 +39,7 @@ USER kowanuser
 EXPOSE 3000
 
 ENV PORT 3000
+
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 CMD ["node", "server.js"]
