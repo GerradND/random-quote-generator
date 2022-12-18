@@ -14,7 +14,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-RUN NEXT_PUBLIC_API_URL=APP_NEXT_PUBLIC_API_URL yarn build
+RUN yarn build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
@@ -32,14 +32,11 @@ COPY --from=builder /app/package.json ./package.json
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=kowanuser:kowangroup /app/.next/standalone ./
 COPY --from=builder --chown=kowanuser:kowangroup /app/.next/static ./.next/static
-COPY --from=builder --chown=kowanuser:kowangroup /app/entrypoint.sh ./entrypoint.sh
 
 USER kowanuser
 
 EXPOSE 3000
 
 ENV PORT 3000
-
-ENTRYPOINT ["./entrypoint.sh"]
 
 CMD ["node", "server.js"]
