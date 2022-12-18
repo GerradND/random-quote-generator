@@ -44,16 +44,37 @@ const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
                 >
                   About
                 </Dialog.Title>
-                <div className="mt-2">
+                <hr className="mt-1" />
+                <div className="mt-2 mb-6">
                   <p className="text-sm text-gray-500">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores odio consequatur soluta reiciendis asperiores consequuntur totam magni provident aliquam voluptatum dolorem quo fugit deleniti iusto fuga, aspernatur veritatis necessitatibus voluptate!
+                    <b>Random Quote Generator</b> is used to randomize quotes by assigning names inputted by user as the subjects of the dialog. It is inspired
+                    by <a href="https://perchance.org/incorrect-quote-generator" target="_blank">https://perchance.org/incorrect-quote-generator</a>.
+                  </p>
+                </div>
+                
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Help / Instruction
+                </Dialog.Title>
+                <hr className="mt-1" />
+                <div className="mt-2 mb-6">
+                  <p className="text-sm text-gray-500">
+                    <ul className="list-disc px-4">
+                      <li>Choose a number from provided number of people dropdown</li>
+                      <li>Input names according to your previous chosen number, names must be separated by enter</li>
+                      <li>Click <b>Generate Quote</b> to generate a randomized quote filled with your inputted names</li>
+                      <li>Click <b>Shuffle Names</b> to shuffle the order of the names assigned to the quote</li>
+                      <li>Have fun!</li>
+                    </ul>
                   </p>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-8 text-right">
                   <button
                     type="button"
-                    // className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="bg-gray-100 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium hover:brightness-95 duration-75"
                     onClick={closeModal}
                   >
                     Close
