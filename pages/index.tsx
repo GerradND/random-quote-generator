@@ -1,14 +1,16 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Head from 'next/head';
-import { useState } from 'react';
-import DropdownComponent from '../components/Dropdown/DropdownComponent';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../components/Button';
+import DropdownComponent from '../components/Dropdown/DropdownComponent';
+import Modal from '../components/Modal';
 
 export default function Home() {
 	const [value, setValue] = useState('');
 	const [num, setNum] = useState(1);
+	let [isOpen, setIsOpen] = useState(true)
+
 	var parse = require('html-react-parser');
 
 	const [data, setData] = useState('');
@@ -41,8 +43,12 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		getData();
+		// getData();
 	}, []);
+
+  function openModal() {
+    setIsOpen(true)
+  }
 
 	return (
 		<>
@@ -56,6 +62,11 @@ export default function Home() {
 				{/* code starts here */}
 				<h1 className="py-10 text-center">Random Quote Generator!</h1>
 
+				{/* help modal*/}
+				<Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+				<button onClick={openModal}>help</button>
+
+				{/* input field */}
 				<div className="flex justify-center items-center">
 					<p className="text-lg pr-3">Number of People: </p>
 
@@ -74,7 +85,7 @@ export default function Home() {
 					></textarea>
 				</form>
 
-				{/* button */}
+				{/* execute button */}
 				<div className="flex flex-col sm:block">
 					<Button text="Generate Quote" value={value} getData={getData} />
 					<Button text="Shuffle Names" value={value} getData={getData} />
@@ -84,6 +95,8 @@ export default function Home() {
 
 				{/* quotes */}
 				<div className="py-4 px-4 text-left sm:w-[600px] ">{parse(data)}</div>
+
+				<div className="py-4 px-4 text-center text-sm">Made for Kowan</div>
 			</main>
 		</>
 	);
