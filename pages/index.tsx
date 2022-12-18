@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Head from "next/head";
 import { NextPage } from "next";
 import getConfig from "next/config";
@@ -64,10 +64,6 @@ const Home: NextPage = () => {
       setData(resData.data);
     }
   };
-
-  useEffect(() => {
-    generateQuote();
-  }, []);
 
   function openModal() {
     setIsOpen(true);
