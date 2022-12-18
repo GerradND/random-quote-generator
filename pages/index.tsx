@@ -6,28 +6,25 @@ import Button from '../components/Button';
 import DropdownComponent from '../components/Dropdown/DropdownComponent';
 import Modal from '../components/Modal';
 
+interface IData {
+	id: number;
+	number_of_people: number;
+	sentences: string;
+}
+
 export default function Home() {
+	const [isOpen, setIsOpen] = useState(false);
 	const [value, setValue] = useState('');
 	const [num, setNum] = useState(1);
-	let [isOpen, setIsOpen] = useState(false)
+	const [data, setData] = useState<IData>();
 
 	var parse = require('html-react-parser');
 
-	const [data, setData] = useState('');
-	const getData = async () => {
-		// const response = await fetch(
-		// 	`/api/quote?number=${num}&name=${value.replaceAll('\n', ',')}`,
-		// 	{
-		// 		method: 'GET',
-		// 		mode: 'cors',
-		// 		headers: { 'Content-Type': 'application/json' },
-		// 	}
-		// );
+	const baseUrl = `${process.env.NEXT_PUBLIC_API_URL!}/api/v1`;
+
+	const generateQuote = async () => {
 		const response = await fetch(
-			`http://localhost:8080/api/v1/generate-quote?number_of_people=${num}&names=${value.replaceAll(
-				'\n',
-				','
-			)}`,
+			`${baseUrl}/generate-quote?number_of_people=${num}&names=${value.replaceAll('\n', ',')}`,
 			{
 				method: 'GET',
 				mode: 'cors',
@@ -38,17 +35,36 @@ export default function Home() {
 		if (!response.ok) {
 			toast.error('Error: ' + resData.error);
 		} else {
-			setData(resData.data.sentences);
+			setData(resData.data);
+		}
+	};
+
+	const shuffleNames = async () => {
+		const response = await fetch(
+			`${baseUrl}/shuffle-quote?number_of_people=${num}&names=${value.replaceAll('\n', ',')}&quote_id=${data?.id}`,
+			{
+				method: 'GET',
+				mode: 'cors',
+				headers: { 'Content-Type': 'application/json' },
+			}
+		);
+		const resData = await response.json();
+		if (!response.ok) {
+			toast.error('Error: ' + resData.error);
+		} else {
+			setData(resData.data);
 		}
 	};
 
 	useEffect(() => {
-		// getData();
+		generateQuote();
 	}, []);
 
   function openModal() {
     setIsOpen(true)
   }
+
+	const sentences = data ? data.sentences : ""
 
 	return (
 		<>
@@ -92,16 +108,16 @@ export default function Home() {
 
 				{/* execute button */}
 				<div className="flex flex-col sm:block">
-					<Button text="Generate Quote" value={value} getData={getData} />
-					<Button text="Shuffle Names" value={value} getData={getData} />
+					<Button text="Generate Quote" value={value} getData={generateQuote} />
+					<Button text="Shuffle Names" value={value} getData={shuffleNames} />
 				</div>
 
 				<ToastContainer autoClose={2000} />
 
 				{/* quotes */}
-				<div className="py-4 px-4 text-left sm:w-[600px] ">{parse(data)}</div>
+				<div className="py-4 px-4 text-left sm:w-[600px] ">{parse(sentences)}</div>
 
-				<div className="mt-8 text-center text-sm text-gray-500 italic">&#8226; Made for Kowan Final Project &#8226;</div>
+				<div className="my-8 text-center text-sm text-gray-500 italic">&#8226; Made for Kowan Final Project &#8226;</div>
 			</main>
 		</>
 	);
