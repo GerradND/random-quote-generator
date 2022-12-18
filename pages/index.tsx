@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 
   var parse = require("html-react-parser");
 
-  const baseUrl = `${publicRuntimeConfig.NEXT_PUBLIC_API_URL!}/api/v1`;
+  const baseUrl = `${publicRuntimeConfig.API_URL!}/api/v1`;
 
   const generateQuote = async () => {
     const response = await fetch(
