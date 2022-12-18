@@ -9,7 +9,7 @@ import Modal from '../components/Modal';
 export default function Home() {
 	const [value, setValue] = useState('');
 	const [num, setNum] = useState(1);
-	let [isOpen, setIsOpen] = useState(true)
+	let [isOpen, setIsOpen] = useState(false)
 
 	var parse = require('html-react-parser');
 

@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({ text, value, getData }) => {
 					? toast.error("Don't use comma on your name!")
 					: getData();
 			}}
-			className="bg-gray-300 border-2 border-black rounded px-3 py-1 mx-2 my-2"
+			className="bg-gray-300 border-2 border-black rounded px-3 py-1 mx-2 my-2 hover:brightness-95 duration-75"
 		>
 			{text}
 		</button>
